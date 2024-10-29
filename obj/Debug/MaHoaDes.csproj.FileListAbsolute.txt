@@ -1,0 +1,10 @@
+C:\Users\Tranh\source\repos\DES\DES\bin\Debug\DES.exe.config
+C:\Users\Tranh\source\repos\DES\DES\bin\Debug\DES.exe
+C:\Users\Tranh\source\repos\DES\DES\bin\Debug\DES.pdb
+C:\Users\Tranh\source\repos\DES\DES\obj\Debug\MaHoaDes.csproj.AssemblyReference.cache
+C:\Users\Tranh\source\repos\DES\DES\obj\Debug\DES.Form1.resources
+C:\Users\Tranh\source\repos\DES\DES\obj\Debug\DES.Properties.Resources.resources
+C:\Users\Tranh\source\repos\DES\DES\obj\Debug\MaHoaDes.csproj.GenerateResource.cache
+C:\Users\Tranh\source\repos\DES\DES\obj\Debug\MaHoaDes.csproj.CoreCompileInputs.cache
+C:\Users\Tranh\source\repos\DES\DES\obj\Debug\DES.exe
+C:\Users\Tranh\source\repos\DES\DES\obj\Debug\DES.pdb
