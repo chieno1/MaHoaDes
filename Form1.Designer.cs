@@ -105,6 +105,7 @@
             // 
             this.txt_giai_thich.Dock = System.Windows.Forms.DockStyle.Fill;
             this.txt_giai_thich.Location = new System.Drawing.Point(0, 0);
+            this.txt_giai_thich.MaxLength = 100000;
             this.txt_giai_thich.Multiline = true;
             this.txt_giai_thich.Name = "txt_giai_thich";
             this.txt_giai_thich.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
@@ -129,6 +130,7 @@
             this.btn_xoa.TabIndex = 5;
             this.btn_xoa.Text = "Clear";
             this.btn_xoa.UseVisualStyleBackColor = true;
+            this.btn_xoa.Click += new System.EventHandler(this.btn_xoa_Click);
             // 
             // btn_giai_ma
             // 

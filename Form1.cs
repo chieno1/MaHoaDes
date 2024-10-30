@@ -6,6 +6,7 @@ using System.Data;
 using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -148,14 +149,14 @@ namespace DES
         };
         public static Dictionary<char, string> mp = new Dictionary<char, string>();
         public static Dictionary<string, char> mp2 = new Dictionary<string, char>();
-
         
-public static string init(string s, int i)
+
+        public static string init(string s, int i)
         {
             string temp = "";
-            if(i == 1 || i == 2 || i == 9 || i == 16)
+            if (i == 1 || i == 2 || i == 9 || i == 16)
             {
-                for (int j = 1; j < 28; j++) 
+                for (int j = 1; j < 28; j++)
                 {
                     temp += s[j];
                 }
@@ -171,12 +172,12 @@ public static string init(string s, int i)
                 temp += s[1];
             }
             return temp;
-            
+
         }
         public static string initK(string s)
         {
             string temp = "";
-            for (int i = 0; i <  48; i++)
+            for (int i = 0; i < 48; i++)
             {
                 temp += s[pc2[i] - 1];
             }
@@ -185,13 +186,13 @@ public static string init(string s, int i)
         public static string initKchar(string s)
         {
             string temp = "";
-            for(int i = 0; i < s.Length; i+= 8)
+            for (int i = 0; i < s.Length; i += 8)
             {
                 temp += mp2[s.Substring(i, 8)];
             }
             return temp;
         }
-        public static void TaoDict2() 
+        public static void TaoDict2()
         {
             // Lặp qua các ký tự từ 0 đến 255 (bao gồm bảng ASCII mở rộng)
             for (int i = 0; i < 256; i++)
@@ -200,17 +201,17 @@ public static string init(string s, int i)
                 string binaryValue = Convert.ToString(i, 2).PadLeft(8, '0');
 
                 // Chuyển đổi số nguyên thành ký tự
-                char character = (char)i; 
+                char character = (char)i;
 
                 // Thêm vào Dictionary
                 mp2[binaryValue] = character;
             }
 
-            
+
         }
 
-        
-public static void TaoDict1()
+
+        public static void TaoDict1()
         {
             for (int i = 0; i < 256; i++)
             {
@@ -225,7 +226,7 @@ public static void TaoDict1()
             }
 
             // Xuất thử nội dung của Dictionary
-            
+
         }
         public void SinhKhoa()
         {
@@ -283,11 +284,209 @@ public static void TaoDict1()
                 txt_giai_thich.Text += $"k[{i}] = {k2[i]}\r\n";
             }
         }
-        public void SinhBanMa()
+        public int binTodec(string s)
         {
+            int temp = 0;
+            int a = 1;
+            for (int i = s.Length - 1; i >= 0; i--)
+            {
+                if (s[i] == '1')
+                {
+                    temp += a;
+                }
+                a *= 2;
+            }
+            return temp;
+
 
         }
-private void textBox1_TextChanged(object sender, EventArgs e)
+        public string decTobin(int x)
+        {
+            string temp = "";
+            while (x != 0)
+            {
+                temp = (x % 2) + temp;
+                x /= 2;
+            }
+            while (temp.Length < 4)
+            {
+                temp = "0" + temp;
+            }
+            return temp;
+        }
+        public string xor(string s1, string s2)
+        {
+            if (s1.Length != s2.Length)
+            {
+                return null;
+            }
+            string temp = "";
+            for (int i = 0; i < s1.Length; i++)
+            {
+                if (s1[i] != s2[i])
+                {
+                    temp += "1";
+                }
+                else
+                {
+                    temp += "0";
+                }
+            }
+            return temp;
+        }
+        public string f(string r, string k)
+        {
+            string r2 = "";
+            for (int i = 0; i < 48; i++)
+            {
+                r2 += r[e[i] - 1];
+            }
+            string[] block = new string[8];
+            for (int i = 0; i < 8; i++)
+            {
+                block[i] = r2.Substring(i * 6, 6);
+            }
+            string temp2 = "";
+            for (int i = 0; i < 8; i++)
+            {
+                int row, colum;
+                switch (i)
+                {
+                    case 0:
+                        colum = binTodec(block[i].Substring(1, 4));
+                        row = binTodec(block[i][0] + block[i][5] + "");
+                        temp2 += decTobin(s1[row, colum]);
+                        break;
+                    case 1:
+                        colum = binTodec(block[i].Substring(1, 4));
+                        row = binTodec(block[i][0] + block[i][5] + "");
+                        temp2 += decTobin(s2[row, colum]);
+                        break;
+
+                    case 2:
+                        colum = binTodec(block[i].Substring(1, 4));
+                        row = binTodec(block[i][0] + block[i][5] + "");
+                        temp2 += decTobin(s3[row, colum]);
+                        break;
+                    case 3:
+                        colum = binTodec(block[i].Substring(1, 4));
+                        row = binTodec(block[i][0] + block[i][5] + "");
+                        temp2 += decTobin(s4[row, colum]);
+                        break;
+                    case 4:
+                        colum = binTodec(block[i].Substring(1, 4));
+                        row = binTodec(block[i][0] + block[i][5] + "");
+                        temp2 += decTobin(s5[row, colum]);
+                        break;
+                    case 5:
+                        colum = binTodec(block[i].Substring(1, 4));
+                        row = binTodec(block[i][0] + block[i][5] + "");
+                        temp2 += decTobin(s6[row, colum]);
+                        break;
+                    case 6:
+                        colum = binTodec(block[i].Substring(1, 4));
+                        row = binTodec(block[i][0] + block[i][5] + "");
+                        temp2 += decTobin(s7[row, colum]);
+                        break;
+                    case 7:
+                        colum = binTodec(block[i].Substring(1, 4));
+                        row = binTodec(block[i][0] + block[i][5] + "");
+                        temp2 += decTobin(s8[row, colum]);
+                        break;
+
+                }
+                
+            }
+            string temp3 = "";
+            for (int i = 0; i < p.Length; i++)
+            {
+                temp3 += temp2[p[i] - 1];
+            }
+            return temp3;
+
+        }
+        public void creatLeftRight(string s)
+        {
+            if (s.Length != 64)
+                return;
+            l[0] = s.Substring(0, 32);
+            r[0] = s.Substring(32, 32);
+            
+            txt_giai_thich.Text += $"l[0] = {l[0]}\r\n";
+            txt_giai_thich.Text += $"r[0] = {r[0]}\r\n";
+            
+            for (int i = 1; i <= 16; i++)
+            {
+                l[i] = r[i - 1];
+                r[i] = xor(l[i - 1], f(r[i - 1], k[i]));
+                txt_giai_thich.Text += $"l[{i}] = {l[i]}\r\n";
+                txt_giai_thich.Text += $"r[{i}] = {r[i]}\r\n";
+                txt_giai_thich.Text += $"f(r[{i - 1}], k[{i}]) = {f(r[i - 1], k[i])} \r\n";
+            }
+            
+            string p_bin = "";
+            string cdx = l[16] + r[16];
+            string cd = "";
+            for(int i = 0; i < 64; i++)
+            {
+                cd += cdx[ip1[i] - 1];
+            }
+            
+                for (int i = 0; i < 64; i++)
+                {
+                    p_bin += cd[ip1[i] - 1];
+                }
+           
+        
+            for(int i = 0; i < 8; i++)
+            {
+                txt_ban_ma.Text += mp2[p_bin.Substring(i * 8, 8)];
+            }
+        }
+        public string charTobin(string s)
+        {
+            string temp = "";
+            for(int i =0; i < s.Length; i++)
+            {
+                temp += mp[s[i]];
+            }
+            string temp2 = "";
+            for(int i = 0; i < 64;i++)
+            {
+                temp2 += temp[ip[i] - 1];
+            }
+            return temp2;
+        }
+        public void SinhBanMa()
+        {
+            if (txt_ban_ro.Text.Length == 0)
+            {
+                MessageBox.Show("bạn chua nhập bản rõ");
+            }
+            while (txt_ban_ro.Text.Length % 8 != 0)
+            {
+                txt_ban_ro.Text += "X";
+            }
+            string s;
+            for (int i = 0; i < txt_ban_ro.Text.Length; i += 8)
+            {
+                txt_giai_thich.Text += $"Mã hóa khối thư {i / 8 + 1}\r\n";
+                try
+                {
+                     s = txt_ban_ro.Text.Substring(i, 8);
+                    creatLeftRight(charTobin(s));
+                    txt_giai_thich.Text += s + " => " + txt_ban_ma.Text.Substring(txt_ban_ma.Text.Length - 8) + "\r\n";
+                }
+                catch (Exception ex) {
+                    MessageBox.Show(i + "");
+                }
+               
+                
+            }
+            
+
+        }
+        private void textBox1_TextChanged(object sender, EventArgs e)
         {
 
         }
@@ -299,8 +498,18 @@ private void textBox1_TextChanged(object sender, EventArgs e)
 
         private void btn_ma_hoa_Click(object sender, EventArgs e)
         {
+            txt_giai_thich.Text = "";
+            txt_ban_ma.Text = "";
             SinhKhoa();
+            SinhBanMa();
+        }
+
+        private void btn_xoa_Click(object sender, EventArgs e)
+        {
+            txt_ban_ma.Text = txt_ban_ro.Text = txt_giai_thich.Text = txt_khoa.Text = "";
 
         }
     }
+
 }
+
